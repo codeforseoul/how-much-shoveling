@@ -6,3 +6,6 @@
 
 이 프로젝트는 정부의 재정데이터중 건설관련 비용을 지도상에 표시하여 보다 쉽게 건설관련 비용의 흐름과 유용성을 보여주는 서비스입니다.
 
+demo http://codeforseoul.org/how-much-shoveling/  
+mobile enabled
+have fun
