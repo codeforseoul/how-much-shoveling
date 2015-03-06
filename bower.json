@@ -1,0 +1,20 @@
+{
+  "name": "shoveling",
+  "description": "",
+  "homepage": "",
+  "keywords": [
+  ],
+  "author": "",
+  "private": true,
+
+"dependencies": {
+  "polymer": "Polymer/polymer#master",
+  "paper-elements": "Polymer/paper-elements#master",
+  "google-map": "GoogleWebComponents/google-map#master",
+  "point-overlay": "brendankenny/point-overlay#master",
+  "simplified-traffic-data": "brendankenny/simplified-traffic-data#master",
+  "core-ajax": "Polymer/core-ajax#master"
+}
+
+
+}
