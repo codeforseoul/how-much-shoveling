@@ -1,1 +1,33 @@
-hello dev edit
+<!doctype html>
+
+<html>
+<head>
+  <title>VisualizationCodelab</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+  <link rel="import" href="bower_components/google-map/google-map.html">
+  <link rel="import" href="bower_components/point-overlay/point-overlay.html">
+   <link rel="import" href="bower_components/core-ajax/core-ajax.html">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <template is="auto-binding">
+    <google-map map="{{map}}" latitude="37.779" longitude="-122.3892" zoom="13"></google-map>
+ <point-overlay map="{{map}}" data="{{data}}"></point-overlay>
+   <core-ajax
+    url="bower_components/simplified-traffic-data/accidents.json"
+    handleAs="json"
+    response="{{data}}"
+    auto>
+</core-ajax>
+  </template>
+
+  <script src="main.js"></script>
+</body>
+</html>
+>>>>>>> 2bcf5648d8a395c9be41d73bef165c8cc6f7ea2a

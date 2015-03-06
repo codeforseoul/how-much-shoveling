@@ -1,0 +1,9 @@
+body, html {
+  font-family: 'Roboto', Arial, sans-serif;
+  height: 100%;
+  margin: 0;
+}
+google-map {
+  display: block;
+  height: 100%;
+}
