@@ -24,7 +24,7 @@
 <body unresolved fullbleed layout vertical>
   <template is="auto-binding" id="app">
 
-    <core-drawer-panel>
+    <core-drawer-panel id="drawer-panel">
 
       <!-- Drawer -->
       <core-header-panel class="left-panel" drawer>
@@ -33,16 +33,13 @@
         <core-toolbar><img src="/images/logos/lockup.svg"></core-toolbar>
 
         <!-- Drawer Content -->
-        <core-menu selected="{{route}}" valueattr="path">
-          <paper-item path="info" noink>
-            <a href="/" >건설 재정 통계</a>
-          </paper-item>
-          <paper-item path="compare" noink>
-            <a href="/compare">전국 시/도별 비교</a>
-          </paper-item>
-          <paper-item path="map" noink>
-            <a href="/map">건설 지역 지도</a>
-          </paper-item>
+        <core-menu selected="{{route}}" valueattr="path" selectedModel="{{selectedPage}}"
+                 on-core-select="{{menuItemSelected}}">
+          <template repeat="{{page, i in pages}}">
+            <paper-item path="{{page.route}}" noink>
+              <a href="{{page.route}}" >{{page.name}}</a>
+            </paper-item>
+          </template>
         </core-menu>
 
       </core-header-panel>
@@ -53,20 +50,20 @@
         <!-- Main Toolbar -->
         <core-toolbar class="right-toolbar">
           <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
-          <span>{{appName}}</span>
+          <span>{{selectedPage.page.name}}</span>
         </core-toolbar>
 
         <!-- Main Content -->
         <div layout vertical center-center fit>
         
           <core-pages selected="{{route}}" valueattr="path" >
-            <section path="info">
+            <section path="/">
               <div>Info Content</div>
             </section>
-            <section path="compare">
+            <section path="/compare">
               <div>Compare Content</div>
             </section>
-            <section path="map">
+            <section path="/map">
               <div>Map Content</div>
             </section>
           </core-pages>
