@@ -33,10 +33,16 @@
         <core-toolbar>Menu</core-toolbar>
 
         <!-- Drawer Content -->
-        <core-menu selected="{{selected}}" valueattr="route">
-          <core-item route="info" label="건설 재정 통계"></core-item>
-          <core-item route="compare" label="전국 시/도별 비교"></core-item>
-          <core-item route="map" label="건설 지역 지도"></core-item>
+        <core-menu selected="{{route}}" valueattr="path">
+          <paper-item path="info" noink>
+            <a href="/" >건설 재정 통계</a>
+          </paper-item>
+          <paper-item path="compare" noink>
+            <a href="/compare">전국 시/도별 비교</a>
+          </paper-item>
+          <paper-item path="map" noink>
+            <a href="/map">건설 지역 지도</a>
+          </paper-item>
         </core-menu>
 
       </core-header-panel>
@@ -51,16 +57,16 @@
         </core-toolbar>
 
         <!-- Main Content -->
-        <div class="hero-unit" fit layout vertical>
+        <div layout vertical center-center fit>
         
-          <core-pages selected="{{selected}}" valueattr="route" >
-            <section route="info">
+          <core-pages selected="{{route}}" valueattr="path" >
+            <section path="info">
               <div>Info Content</div>
             </section>
-            <section route="compare">
+            <section path="compare">
               <div>Compare Content</div>
             </section>
-            <section route="map">
+            <section path="map">
               <div>Map Content</div>
             </section>
           </core-pages>
@@ -73,6 +79,7 @@
   </template>
 
   <!-- build:js scripts/app.js -->
+  <script src="bower_components/page.js/page.js"></script>
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
 </body>
