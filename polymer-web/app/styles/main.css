@@ -1,6 +1,15 @@
 body {
   font-family: "RobotoDraft";
   font-weight: 300;
+  background: #EEEEEE;
+}
+
+.left-panel {
+  background: #B3B3B3;
+}
+
+.right-toolbar {
+  background: #7986CB;
 }
 
 core-animated-pages {
@@ -17,7 +26,7 @@ core-animated-pages > * {
 }
 
 body /deep/ core-toolbar {
-  background-color: #03a9f4;
+  background-color: #EEEEEE;
   color: #fff;
 }
 
@@ -37,7 +46,7 @@ paper-item a {
 }
 
 core-menu > paper-item.core-selected {
-  background: #e1f5fe;
+  background: #EEEEEE;
 }
 
 @media all and (max-width: 480px) {
