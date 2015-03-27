@@ -16,6 +16,18 @@ and open app folder in Chrome Dev Editor.
 
 # run
 
+```
 bower install
+
+npm install
+
 grunt server
+```
+
+or just use simple python http server
+
+```
+python -m SimpleHTTPServer 8000
+```
+
 
