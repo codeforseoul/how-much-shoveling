@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>poly foo</title>
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild-->
+
+  <!-- build:js bower_components/webcomponentsjs/webcomponents.min.js -->
+  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+  <!-- endbuild -->
+
+  <!-- will be replaced with elements/elements.vulcanized.html -->
+  <link rel="import" href="elements/elements.html">
+  <!-- endreplace-->
+</head>
+
+<body unresolved fullbleed layout vertical>
+  <template is="auto-binding" id="app">
+
+    <core-drawer-panel id="drawer-panel">
+
+      <!-- Drawer -->
+      <core-header-panel class="left-panel" drawer>
+
+        <!-- Drawer Toolbar -->
+        <core-toolbar><img src="/images/logos/lockup.svg"></core-toolbar>
+
+        <!-- Drawer Content -->
+        <core-menu selected="{{route}}" valueattr="path" selectedModel="{{selectedPage}}"
+                 on-core-select="{{menuItemSelected}}">
+          <template repeat="{{page, i in pages}}">
+            <paper-item path="{{page.route}}" noink>
+              <a href="{{page.route}}" >{{page.name}}</a>
+            </paper-item>
+          </template>
+        </core-menu>
+
+      </core-header-panel>
+
+      <!-- Main -->
+      <core-header-panel main>
+
+        <!-- Main Toolbar -->
+        <core-toolbar class="right-toolbar">
+          <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
+          <span>{{selectedPage.page.name}}</span>
+        </core-toolbar>
+
+        <!-- Main Content -->
+        <div layout vertical center-center fit>
+        
+          <core-pages selected="{{route}}" valueattr="path" >
+            <section path="/">
+              <div>Info Content</div>
+            </section>
+            <section path="/compare">
+              <div>Compare Content</div>
+            </section>
+            <section path="/map">
+              <div>Map Content</div>
+            </section>
+          </core-pages>
+          
+        </div>
+        
+      </core-header-panel>
+    </core-drawer-panel>
+
+  </template>
+
+  <!-- build:js scripts/app.js -->
+  <script src="bower_components/page.js/page.js"></script>
+  <script src="scripts/app.js"></script>
+  <!-- endbuild-->
+</body>
+
+</html>
