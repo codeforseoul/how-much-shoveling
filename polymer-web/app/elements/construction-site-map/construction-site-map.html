@@ -3,14 +3,18 @@
 <polymer-element name="construction-site-map" attributes="">
   <template>
     <core-ajax
-      id="ajax" auto
-      url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v&l=7000"
+      auto
+      url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v&l=1999"
       response="{{response}}"
       progress="{{progress}}"
       loading="{{loading}}"
-      handleAs="json"
       on-core-response="{{mongodbQueryResponse}}"
       ></core-ajax>
+    <!--<core-ajax-->
+      <!--auto-->
+      <!--url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v&l=1999&sk=1999"-->
+      <!--on-core-response="{{mongodbQueryResponse}}"-->
+      <!--</core-ajax>-->
     <style>
       #map {
         width: 100%;
@@ -48,13 +52,16 @@
     (function () {
       Polymer('construction-site-map', {
         constructionSiteData: [],
-        markers: [],
+        markers: null,
         mongodbQueryResponse: function (event, response) {
           var constructionSites = response.response;
 
           this.constructionSiteData = constructionSites;
 
-          this.markers = [];
+          if (!this.markers) {
+            console.log("init");
+            this.markers = [];
+          }
 
           var markerTemplate = document.createElement("construction-site-marker");
 
