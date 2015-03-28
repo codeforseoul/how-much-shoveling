@@ -1,0 +1,119 @@
+/* Shadow DOM CSS Cheat Sheet */
+/* http://robdodson.me/blog/2014/04/10/shadow-dom-css-cheat-sheet */
+
+/* styles for the custom element itself - lowest specificity */
+:host {
+  display: block;
+}
+
+
+@import url('normalize.css');
+
+* {
+	font-family: 'Nanum Gothic';
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	position: relative;
+	margin: 50px auto 30px;
+	width: 700px;
+	min-height: 700px;
+}
+
+.footer {
+	margin: 0 auto 50px;
+	width: 700px;
+}
+
+.footer p {
+	text-align: center;
+	font-size: 12px;
+}
+
+.footer p a {
+	color: #2fa4e7;
+	text-decoration: none;
+}
+
+.footer p a:hover {
+	text-decoration: underline;
+}
+
+h1 {
+	font-size: 24px;
+}
+
+#radio {
+	height: 36px;
+	text-align: right;
+}
+
+#radio span.title {
+	margin-right: 5px;
+	font-size: 13px;
+}
+
+#control {
+	position: absolute;
+	top: 95px;
+	left: 15px;
+	width: 24px;
+	padding: 4px;
+}
+
+#control button:first-child {
+	margin-bottom: 4px;
+}
+
+#map {
+	border: 1px solid #ddd;
+}
+
+.background {
+  fill: #f7fcfd;
+  pointer-events: all;
+}
+
+.ui-button-text-only .ui-button-text {
+	padding: .2em .8em;
+	font-size: 12px;
+}
+
+button.ui-button-icon-only {
+	width: 24px;
+}
+
+.ui-button-icon-only .ui-button-text,
+.ui-button-icons-only .ui-button-text {
+	padding: 0;
+}
+
+#states path {
+  fill: #ccece6;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+#states path:hover {
+  stroke: white;
+}
+
+#states .active {
+  fill: orange;
+}
+
+#states path {
+	cursor: pointer;
+}
+
+#states text {
+	cursor: pointer;
+	font-size: 12px;
+	font-family: 'Nanum Gothic';
+}
