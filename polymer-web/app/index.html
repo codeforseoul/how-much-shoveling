@@ -25,7 +25,11 @@
 
 <body unresolved fullbleed layout vertical>
 <template is="auto-binding" id="app">
-
+  <style>
+    .height-full {
+      height: 100%;
+    }
+  </style>
   <core-drawer-panel id="drawer-panel">
 
     <!-- Drawer -->
@@ -62,14 +66,14 @@
 
         <!-- Main Content -->
         <div layout vertical fit>
-        
-          <core-pages selected="{{route}}" valueattr="path" >
-            
+
+          <core-pages selected="{{route}}" valueattr="path" class="height-full">
+
             <section path="/">
-              
+
               <div center flex>
-                
-                
+
+
                 Chart examples from <a href="http://robdodson.github.io/chart-elements/components/chart-elements/#chart-radar">here!</a>
                 <br/>
 
@@ -90,33 +94,32 @@
       height="200"
       values="[30, 90, 18, 58, 82]">
   </chart-polar-area>
-  
+
               </div>
-              
+
             </section>
-            
+
             <section path="/compare">
-              
+
               <div>
 
                 <yo-province />
 
               </div>
-              
+
             </section>
-            
-            <section path="/map">
-              
-              <div>
-                <construction-site-map></construction-site-map>
+
+            <section path="/map" class="height-full">
+              <div class="height-full">
+                <construction-site-map class="height-full"></construction-site-map>
               </div>
-              
+
             </section>
-            
+
           </core-pages>
-          
+
         </div>
-        
+
       </core-header-panel>
     </core-drawer-panel>
 

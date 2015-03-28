@@ -8,9 +8,21 @@
   var app = document.querySelector('#app');
   //app.appName = 'Shoveling';
   app.pages = [
-    {name: '건설 재정 통계', route: '/'},
-    {name: '전국 시/도별 비교', route: '/compare'},
-    {name: '건설 지역 지도', route: '/map'}
+    {
+      name: '건설 재정 통계',
+      route: '/',
+      desc: "건설 재정 통계"
+    },
+    {
+      name: '전국 시/도별 비교',
+      route: '/compare',
+      desc: "전국 시/도별 비교"
+    },
+    {
+      name: '건설 지역 지도',
+      route: '/map',
+      desc: "건설 지역 지도 - 나라 장터에 체결된 계약 정보입니다"
+    }
   ];
 
   // Listen for template bound event to know when bindings
@@ -20,8 +32,8 @@
 
     this.route = this.route || DEFAULT_ROUTE; // Select initial route.
   });
-  
-  
+
+
   function info() {
     app.route = '/';
   }
@@ -31,16 +43,16 @@
   function map() {
     app.route = '/map';
   }
-  
+
   // define routes
   page('/', info);
   page('/compare', compare);
   page('/map', map);
-  
+
   // configure
   page({ hashbang: true });
   //page.base('');
-  
+
   app.menuItemSelected = function(e, detail, sender) {
     if (detail.isSelected) {
       document.querySelector('#drawer-panel').closeDrawer();
