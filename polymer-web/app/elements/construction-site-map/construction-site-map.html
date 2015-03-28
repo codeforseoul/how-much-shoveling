@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="construction-site-map" attributes="">
+  <template>
+    <core-ajax
+      id="ajax" auto
+      url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?q={%22province%22:%22%EC%84%9C%EC%9A%B8%22}&apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v"
+      response="{{response}}"
+      progress="{{progress}}"
+      loading="{{loading}}"
+      handleAs="json"
+      on-core-response="{{mongodbQueryResponse}}"
+      ></core-ajax>
+    <style>
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+
+      #map-container {
+        width: 800px;
+        height: 600px;
+      }
+
+      google-map {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <template if="{{loading && progress.loaded}}">
+      <paper-progress
+        value="{{progress.loaded}}"
+        min="0"
+        max="{{numbytes}}">
+      </paper-progress><br>
+    </template>
+    <div id="map-container">
+      <google-map latitude="37.566535" longitude="126.9779692" map="{{map}}" id="mapelement" zoom="12"></google-map>
+      <google-map-markerclusterer map="{{map}}"
+                                  minimumClusterSize="2"
+                                  gridSize="70" markers="{{markers}}"
+                                  averageCenter="false">
+        <content></content>
+      </google-map-markerclusterer>
+    </div>
+  </template>
+  <script>
+    (function () {
+      Polymer('construction-site-map', {
+        markers: [],
+        mongodbQueryResponse: function(event, response) {
+          console.log(response);
+        }
+      });
+    })();
+  </script>
+</polymer-element>

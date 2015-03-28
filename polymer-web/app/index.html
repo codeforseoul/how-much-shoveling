@@ -22,97 +22,104 @@
 </head>
 
 <body unresolved fullbleed layout vertical>
-  <template is="auto-binding" id="app">
+<template is="auto-binding" id="app">
 
-    <core-drawer-panel id="drawer-panel">
+  <core-drawer-panel id="drawer-panel">
 
-      <!-- Drawer -->
-      <core-header-panel class="left-panel" drawer>
+    <!-- Drawer -->
+    <core-header-panel class="left-panel" drawer>
 
-        <!-- Drawer Toolbar -->
-        <core-toolbar><div flex>&nbsp;</div><img src="/images/logos/shoveling_logo02.png"><div flex>&nbsp;</div></core-toolbar>
+      <!-- Drawer Toolbar -->
+      <core-toolbar>
+        <div flex>&nbsp;</div>
+        <img src="/images/logos/shoveling_logo02.png">
 
-        <!-- Drawer Content -->
-        <core-menu selected="{{route}}" valueattr="path" selectedModel="{{selectedPage}}"
+        <div flex>&nbsp;</div>
+      </core-toolbar>
+
+      <!-- Drawer Content -->
+      <core-menu selected="{{route}}" valueattr="path" selectedModel="{{selectedPage}}"
                  on-core-select="{{menuItemSelected}}">
-          <template repeat="{{page, i in pages}}">
-            <paper-item path="{{page.route}}" noink>
-              <a href="{{page.route}}" >{{page.name}}</a>
-            </paper-item>
-          </template>
-        </core-menu>
+        <template repeat="{{page, i in pages}}">
+          <paper-item path="{{page.route}}" noink>
+            <a href="{{page.route}}">{{page.name}}</a>
+          </paper-item>
+        </template>
+      </core-menu>
 
-      </core-header-panel>
+    </core-header-panel>
 
-      <!-- Main -->
-      <core-header-panel main>
+    <!-- Main -->
+    <core-header-panel main>
 
-        <!-- Main Toolbar -->
-        <core-toolbar class="right-toolbar">
-          <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
-          <span>{{selectedPage.page.name}}</span>
-        </core-toolbar>
+      <!-- Main Toolbar -->
+      <core-toolbar class="right-toolbar">
+        <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
+        <span>{{selectedPage.page.name}}</span>
+      </core-toolbar>
 
-        <!-- Main Content -->
-        <div layout vertical fit>
-        
-          <core-pages selected="{{route}}" valueattr="path" >
-            
-            <section path="/">
-              
-              <div center flex>
-                
-                
-                Chart examples from <a href="http://robdodson.github.io/chart-elements/components/chart-elements/#chart-radar">here!</a>
-                <br/>
+      <!-- Main Content -->
+      <div layout vertical fit>
 
-  <chart-pie
-      width="200"
-      height="200"
-      values="[20, 30, 100]">
-  </chart-pie>
+        <core-pages selected="{{route}}" valueattr="path">
 
-  <chart-doughnut
-      width="200"
-      height="200"
-      values="[30, 50, 100, 40, 120]">
-  </chart-doughnut>
+          <section path="/">
 
-  <chart-polar-area
-      width="200"
-      height="200"
-      values="[30, 90, 18, 58, 82]">
-  </chart-polar-area>
-  
-              </div>
-              
-            </section>
-            
-            <section path="/compare">
-              
-              <div>Compare Content</div>
-              
-            </section>
-            
-            <section path="/map">
-              
-              <div>Map Content</div>
-              
-            </section>
-            
-          </core-pages>
-          
-        </div>
-        
-      </core-header-panel>
-    </core-drawer-panel>
+            <div center flex>
 
-  </template>
 
-  <!-- build:js scripts/app.js -->
-  <script src="bower_components/page.js/page.js"></script>
-  <script src="scripts/app.js"></script>
-  <!-- endbuild-->
+              Chart examples from <a
+              href="http://robdodson.github.io/chart-elements/components/chart-elements/#chart-radar">here!</a>
+              <br/>
+
+              <chart-pie
+                width="200"
+                height="200"
+                values="[20, 30, 100]">
+              </chart-pie>
+
+              <chart-doughnut
+                width="200"
+                height="200"
+                values="[30, 50, 100, 40, 120]">
+              </chart-doughnut>
+
+              <chart-polar-area
+                width="200"
+                height="200"
+                values="[30, 90, 18, 58, 82]">
+              </chart-polar-area>
+
+            </div>
+
+          </section>
+
+          <section path="/compare">
+
+            <div>Compare Content</div>
+
+          </section>
+
+          <section path="/map">
+            <div>
+              <construction-site-map></construction-site-map>
+            </div>
+
+          </section>
+
+        </core-pages>
+
+      </div>
+
+    </core-header-panel>
+  </core-drawer-panel>
+
+</template>
+
+<!-- build:js scripts/app.js -->
+<script src="bower_components/page.js/page.js"></script>
+<script src="scripts/app.js"></script>
+<!-- endbuild-->
 </body>
 
 </html>
