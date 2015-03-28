@@ -4,7 +4,7 @@
   <template>
     <core-ajax
       id="ajax" auto
-      url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?q={%22province%22:%22%EC%84%9C%EC%9A%B8%22}&apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v"
+      url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v&l=7000"
       response="{{response}}"
       progress="{{progress}}"
       loading="{{loading}}"
@@ -18,8 +18,7 @@
       }
 
       #map-container {
-        width: 800px;
-        height: 600px;
+        height: 100%;
       }
 
       google-map {
@@ -32,10 +31,11 @@
         value="{{progress.loaded}}"
         min="0"
         max="{{numbytes}}">
-      </paper-progress><br>
+      </paper-progress>
+      <br>
     </template>
     <div id="map-container">
-      <google-map latitude="37.566535" longitude="126.9779692" map="{{map}}" id="mapelement" zoom="12"></google-map>
+      <google-map latitude="35.907757" longitude="127.766922" map="{{map}}" id="mapelement" zoom="7"></google-map>
       <google-map-markerclusterer map="{{map}}"
                                   minimumClusterSize="2"
                                   gridSize="70" markers="{{markers}}"
@@ -47,18 +47,100 @@
   <script>
     (function () {
       Polymer('construction-site-map', {
-        markers: null,
-        mongodbQueryResponse: function(event, response) {
+        constructionSiteData: [],
+        markers: [],
+        mongodbQueryResponse: function (event, response) {
           var constructionSites = response.response;
+
+          this.constructionSiteData = constructionSites;
+
           this.markers = [];
-          for (var i = 0; i< constructionSites.length; i++) {
+
+          var markerTemplate = document.createElement("construction-site-marker");
+
+          for (var i = 0; i < constructionSites.length; i++) {
             var constructionSite = constructionSites[i];
-            this.markers.push(new google.maps.Marker({
-              position: new google.maps.LatLng(constructionSite.lat, constructionSite.lng)
-            }));
+
+            var marker = document.importNode(markerTemplate);
+            marker.constructionSite = constructionSite;
+            marker.position = new google.maps.LatLng(constructionSite.lat, constructionSite.lng);
+
+            this.markers.push(marker);
           }
         }
       });
+    })();
+  </script>
+</polymer-element>
+
+<polymer-element name="construction-site-marker" extends="google-map-overlayview-marker" on-click="{{onClickMarker}}">
+  <script>
+    Polymer('construction-site-marker', {
+      shovelingMarker: null,
+      infoWindow: null,
+      onAdd_: function () {
+        this.style.cursor = "pointer";
+        this.shovelingMarker = new ShovelingMarker();
+        this.appendChild(this.shovelingMarker);
+        var panes = this.overlay.getPanes();
+        panes.overlayMouseTarget.appendChild(this);
+      },
+      onClickMarker: function () {
+        if (!this.infoWindow) {
+          this.infoWindow = new google.maps.InfoWindow();
+        }
+        var constructionSiteInfo = new ConstructionSiteInfo();
+        constructionSiteInfo.data = this.constructionSite;
+
+        this.infoWindow.setContent(constructionSiteInfo);
+        this.infoWindow.setPosition(this.position);
+        this.infoWindow.open(this.overlay.getMap());
+      },
+      onRemove_: function () {
+        this.removeChild(this.shovelingMarker);
+        this.infoWindow = null;
+      }
+    });
+  </script>
+</polymer-element>
+
+<polymer-element name="construction-site-info" constructor="ConstructionSiteInfo" attributes="">
+  <template>
+    <style>
+      #info-window {
+        /*width: 300px;*/
+        /*height: 100px;*/
+      }
+    </style>
+    <div id="info-window">
+      <li>공사명: {{data.name}}</li>
+      <li>착공 시작일: {{data.startedAt}}</li>
+      <li>기간: {{data.duration}}</li>
+      <li>기관명: {{data.ownerName}} ({{data.ownerType}})</li>
+      <li>총 금액: {{data.totalAmount | toAmount()}}원</li>
+      <li><a href="{{data.sourceLink}}" target="_blank">상세정보</a></li>
+    </div>
+  </template>
+  <script>
+    (function () {
+      Polymer('construction-site-info', {
+        data: null,
+        toAmount: function(value) {
+          return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+      })
+    })();
+  </script>
+</polymer-element>
+
+<polymer-element name="shoveling-marker" constructor="ShovelingMarker" attributes="">
+  <template>
+    <img src="http://resources.nubimaru.com/attach/6/1008254473.gif" width="30px" height="30px" />
+  </template>
+  <script>
+    (function () {
+      Polymer('shoveling-marker', {
+      })
     })();
   </script>
 </polymer-element>
