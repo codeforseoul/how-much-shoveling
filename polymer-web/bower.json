@@ -7,7 +7,7 @@
     "polymer": "Polymer/polymer#master",
     "page.js": "~1.6.1",
     "chart-elements": "~0.2.0",
-    "d3": "~3.5.5"
+    "d3": "~3.5.5",
     "google-map-markerclusterer": "~0.0.1"
   },
   "devDependencies": {}
