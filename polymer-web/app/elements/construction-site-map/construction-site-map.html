@@ -4,17 +4,13 @@
   <template>
     <core-ajax
       auto
-      url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v&l=1999"
+      url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v&s={%22_id%22:1}&l=7000"
       response="{{response}}"
       progress="{{progress}}"
       loading="{{loading}}"
+      handleAs="json"
       on-core-response="{{mongodbQueryResponse}}"
       ></core-ajax>
-    <!--<core-ajax-->
-      <!--auto-->
-      <!--url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v&l=1999&sk=1999"-->
-      <!--on-core-response="{{mongodbQueryResponse}}"-->
-      <!--</core-ajax>-->
     <style>
       #map {
         width: 100%;
@@ -54,19 +50,16 @@
         constructionSiteData: [],
         markers: null,
         mongodbQueryResponse: function (event, response) {
-          var constructionSites = response.response;
+          this.constructionSiteData = this.constructionSiteData.concat(response.response);
 
-          this.constructionSiteData = constructionSites;
+          console.log("marker length", this.constructionSiteData.length);
 
-          if (!this.markers) {
-            console.log("init");
-            this.markers = [];
-          }
+          this.markers = [];
 
           var markerTemplate = document.createElement("construction-site-marker");
 
-          for (var i = 0; i < constructionSites.length; i++) {
-            var constructionSite = constructionSites[i];
+          for (var i = 0; i < this.constructionSiteData.length; i++) {
+            var constructionSite = this.constructionSiteData[i];
 
             var marker = document.importNode(markerTemplate);
             marker.constructionSite = constructionSite;
