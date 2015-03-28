@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="yo-province" attributes="">
+<polymer-element name="yo-province" attributes="data">
   <template>
     <link rel="stylesheet" href="yo-province.css">
     <svg id="svg"></svg>
@@ -8,12 +8,19 @@
   <script>
     (function () {
       Polymer({
+
         domReady: function () {
+          this.data = {"null":176681692946,"울산광역시":14322109132,"대전광역시":29533812962,"서울":286653698826,"광주광역시":29604643527,"전라남도":238545907507,"경기도":157280011495,"부산광역시":345473303588,"경상남도":149789889682,"전라북도":155365777204,"대구광역시":26477676139,"충청남도":57156531491,"충청북도":155540958495,"경상북도":248143445996,"강원도":51712558859,"인천광역시":243739804577
+          };
           this.createElements();
           this.projection;
           this.path;
         }
         , createElements: function() {
+
+                var data = {"null": 17668169.2946,"울산광역시":1432210.9132,"대전광역시":2953381.2962,"서울":28665369.8826,"광주광역시":2960464.3527,"전라남도":23854590.7507,"경기도":15728001.1495,"부산광역시":34547330.3588,"경상남도":14978988.9682,"전라북도":15536577.7204,"대구광역시":2647767.6139,"충청남도":5715653.1491,"충청북도":15554095.8495,"경상북도":24814344.5996,"강원도":5171255.8859,"인천광역시":24373980.4577
+                  } ;
+
           var width = 700,
               height = 700,
               initialScale = 5500,
@@ -42,6 +49,8 @@
               .attr("id", "states")
               .call(zoom);
 
+          //var money = data[d.properties.Name];
+          //money / 256;
           states.append("rect")
               .attr("class", "background")
               .attr("width", width)
@@ -50,12 +59,28 @@
           d3.json("/data/korea.json", function(json) {
             states.selectAll("path")
                 .data(json.features)
-              .enter().append("path")
+                .enter().append("path")
                 .attr("d", path)
                 .attr("id", function(d) { return 'path-'+d.id; })
+                .style("fill", function(d) {
+
+                    if (! d.properties.Name.startsWith("제주")) {
+
+                      var m = data[d.properties.Name];
+                      var a = (m/256).toString(16).substring(0,2);
+                      console.log(a);
+                  return "#eeee" + a;
+                  //return color(m/256);
+                    } else {
+                  return "#eeeeee"; 
+                  //return color(2);
+                  }
+                })
                 .on("click", click);
                 
                 console.log("path="+this.path);
+
+                  console.log(data);
             labels = states.selectAll("text")
               .data(json.features)
               .enter().append("text")
@@ -64,7 +89,17 @@
                 .attr('text-anchor', 'middle')
                 .attr("dy", ".35em")
                 .on("click", click)
-                .text(function(d) { return d.properties.Name; });
+                .text(function(d) {
+                  var l = d.properties.Name;
+                  console.log(d);
+                    if (! d.properties.Name.startsWith("제주")) {
+
+                      var m = data[d.properties.Name];
+                      l = l + ' - ' + m;
+                    }
+
+                  return l; 
+                });
           });
 
           var zoom = function() {

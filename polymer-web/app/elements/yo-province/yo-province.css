@@ -95,7 +95,7 @@ button.ui-button-icon-only {
 }
 
 #states path {
-  fill: #ccece6;
+  /*fill: #ccece6;*/
   stroke: #fff;
   stroke-width: 1.5px;
 }
