@@ -47,9 +47,16 @@
   <script>
     (function () {
       Polymer('construction-site-map', {
-        markers: [],
+        markers: null,
         mongodbQueryResponse: function(event, response) {
-          console.log(response);
+          var constructionSites = response.response;
+          this.markers = [];
+          for (var i = 0; i< constructionSites.length; i++) {
+            var constructionSite = constructionSites[i];
+            this.markers.push(new google.maps.Marker({
+              position: new google.maps.LatLng(constructionSite.lat, constructionSite.lng)
+            }));
+          }
         }
       });
     })();
