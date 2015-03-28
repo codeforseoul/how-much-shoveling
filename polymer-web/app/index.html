@@ -24,18 +24,23 @@
 </head>
 
 <body unresolved fullbleed layout vertical>
-  <template is="auto-binding" id="app">
+<template is="auto-binding" id="app">
 
-    <core-drawer-panel id="drawer-panel">
+  <core-drawer-panel id="drawer-panel">
 
-      <!-- Drawer -->
-      <core-header-panel class="left-panel" drawer>
+    <!-- Drawer -->
+    <core-header-panel class="left-panel" drawer>
 
-        <!-- Drawer Toolbar -->
-        <core-toolbar><div flex>&nbsp;</div><img src="/images/logos/shoveling_logo02.png"><div flex>&nbsp;</div></core-toolbar>
+      <!-- Drawer Toolbar -->
+      <core-toolbar>
+        <div flex>&nbsp;</div>
+        <img src="/images/logos/shoveling_logo02.png">
 
-        <!-- Drawer Content -->
-        <core-menu selected="{{route}}" valueattr="path" selectedModel="{{selectedPage}}"
+        <div flex>&nbsp;</div>
+      </core-toolbar>
+
+      <!-- Drawer Content -->
+      <core-menu selected="{{route}}" valueattr="path" selectedModel="{{selectedPage}}"
                  on-core-select="{{menuItemSelected}}">
           <template repeat="{{page, i in pages}}">
             <paper-item path="{{page.route}}" noink>
@@ -103,7 +108,7 @@
             <section path="/map">
               
               <div>
-
+                <construction-site-map></construction-site-map>
               </div>
               
             </section>
