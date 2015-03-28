@@ -1,5 +1,5 @@
 body {
-  font-family: "RobotoDraft";
+  font-family: "RobotoDraft", Verdana;
   font-weight: 300;
   background: #EEEEEE;
 }
@@ -17,6 +17,21 @@ core-animated-pages {
   height: 85%;
   -webkit-user-select: none;
   overflow: hidden;
+}
+
+.top-intro{
+  display: inline-block;
+  width: 300px;
+  margin: 10px;
+}
+
+.box{
+  text-align: center;
+}
+
+.desc{
+  vertical-align: middle;
+  margin: 20px;
 }
 
 core-animated-pages > * {
