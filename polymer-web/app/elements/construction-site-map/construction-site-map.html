@@ -3,7 +3,7 @@
 <polymer-element name="construction-site-map" attributes="">
   <template>
     <core-ajax
-      auto
+      auto="false"
       url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v&s={%22_id%22:1}&l=7000"
       response="{{response}}"
       progress="{{progress}}"
@@ -49,7 +49,11 @@
       Polymer('construction-site-map', {
         constructionSiteData: [],
         markers: null,
+        domReady: function() {
+          this.async(go());
+        },
         mongodbQueryResponse: function (event, response) {
+          this.async(
           this.constructionSiteData = this.constructionSiteData.concat(response.response);
 
           console.log("marker length", this.constructionSiteData.length);
@@ -58,7 +62,7 @@
 
           var markerTemplate = document.createElement("construction-site-marker");
 
-          for (var i = 0; i < this.constructionSiteData.length; i++) {
+          for (var i = 0, length = this.constructionSiteData.length; i < l; i++) {
             var constructionSite = this.constructionSiteData[i];
 
             var marker = document.importNode(markerTemplate);
@@ -67,6 +71,7 @@
 
             this.markers.push(marker);
           }
+        );
         }
       });
     })();
