@@ -34,6 +34,7 @@
       </paper-progress>
       <br>
     </template>
+    <div id="loading">Loading...</div>
     <div id="map-container">
       <google-map latitude="35.907757" longitude="127.766922" map="{{map}}" id="mapelement" zoom="7"></google-map>
       <google-map-markerclusterer map="{{map}}"
@@ -53,7 +54,6 @@
           this.async(go());
         },
         mongodbQueryResponse: function (event, response) {
-          this.async(
           this.constructionSiteData = this.constructionSiteData.concat(response.response);
 
           console.log("marker length", this.constructionSiteData.length);
@@ -62,7 +62,8 @@
 
           var markerTemplate = document.createElement("construction-site-marker");
 
-          for (var i = 0, length = this.constructionSiteData.length; i < l; i++) {
+          var l = length = this.constructionSiteData.length;
+          for (var i = 0; i < l; i++) {
             var constructionSite = this.constructionSiteData[i];
 
             var marker = document.importNode(markerTemplate);
@@ -71,7 +72,6 @@
 
             this.markers.push(marker);
           }
-        );
         }
       });
     })();
