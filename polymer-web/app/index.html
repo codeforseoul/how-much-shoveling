@@ -29,7 +29,17 @@
     .height-full {
       height: 100%;
     }
+
+    core-animated-pages > *  {
+      font-size: inherit;
+      overflow-y: auto;
+    }
   </style>
+
+  <!-- Dynamic content controller -->
+  <core-ajax id="ajax" url="{{selectedPage.page.url}}" handleAs="document"
+             on-core-response="{{onResponse}}"></core-ajax>
+
   <core-drawer-panel id="drawer-panel">
 
     <!-- Drawer -->
@@ -67,74 +77,14 @@
         <!-- Main Content -->
         <div layout vertical fit>
 
-          <core-pages selected="{{route}}" valueattr="path" class="height-full">
-
-            <section path="/">
-
-              <div center flex>
-
-                <!-- Chart examples from <a href="http://robdodson.github.io/chart-elements/components/chart-elements/#chart-radar">here!</a> -->
-                <br/>
-                <div class= "box">
-                  <div class="top-intro desc">
-                    <h5> 정부의 재정데이터중 건설관련 비용을 지도상에 표시하여 보다 쉽게 건설관련 비용의 흐름과 유용성을 보여줍니다.</h5>
-                  </div>
-                  <div class = "top-intro">
-                    <h4>Government Expenditures</h4>
-                    <chart-pie
-                        width="200"
-                        height="200"
-                        labels="['Agriculture, Contingencies, Culture and Tourism, Education, Environmental Protection,  General Public Administration, Health,  Industry and SME,  Land and Regional Development, Others,  Public Order and Safety, Social Welfare,  Technology,  Transport and Traffic']"
-                        values="[6698,1134,5157,11845,8870,10867,20348,1850,2549,8369,2516,39106,247,17139]"
-                        colors="['#4D5360','#4D5360','#4D5360','#4D5360','#4D5360','#46BFBD','#4D5360','#4D5360','#4D5360','#4D5360','#4D5360','#4D5360','#4D5360','#4D5360']"
-                        >
-                    </chart-pie>
-                  </div>
-                  <div class="top-intro">
-                    <h4>Annual Construction Investment</h4>
-                    <chart-bar
-                      width="350"
-                      height="200"
-                      labels ="['2014', '2013', '2012']"
-                      values="[ [7.42,8.11,8.40] ]"
-                      >
-                    </chart-bar>
-                  </div>
-                </div>
-                <br>
-                <div class="box">
-                  <h4>Construction Amounts By Region</h4>
-                  <chart-line width="800" height="200"
-                  labels="['강원도','경기도','경상남도','경상북도','광주광역시','대구광역시','대전광역시','부산광역시','서울특별시','울산광역시','인천광역시','전라남도','전라북도','제주도','충청남도',' 충청북도']"
-                  values="[ [2.65,4.65,4.46,3.71,1.83,2.32,1.24,8.1,56.43,2.47,8.89,3.14,3.03,1.32,3.21,1.22] ]">
-                  </chart-line>
-                </div>
-
-              </div>
-
-            </section>
-
-            <section path="/compare">
-
-              <div>
-
-                <yo-province
-                  height="100%"
-                  data="{'null':176681692946,'울산광역시':14322109132,'대전광역시':29533812962,'서울특별시':286653698826,'광주광역시':29604643527,'전라남도':238545907507,'경기도':157280011495,'부산광역시':345473303588,'경상남도':149789889682,'전라북도':155365777204,'대구광역시':26477676139,'충청남도':57156531491,'충청북도':155540958495,'경상북도':248143445996,'강원도':51712558859,'인천광역시':243739804577
-          }" />
-
-              </div>
-
-            </section>
-
-            <section path="/map" class="height-full">
-              <div class="height-full">
-                <construction-site-map class="height-full"></construction-site-map>
-              </div>
-
-            </section>
-
-          </core-pages>
+          <core-animated-pages id="pages" selected="{{route}}" valueattr="path"
+                               transitions="slide-from-right" class="height-full">
+            <template repeat="{{page, i in pages}}">
+              <section path="{{page.route}}" >
+                <div class="height-full">Loading...</div>
+              </section>
+            </template>
+          </core-animated-pages>
 
         </div>
 
