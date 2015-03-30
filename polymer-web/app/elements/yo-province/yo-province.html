@@ -32,12 +32,13 @@
           var level = Math.ceil((max - min) / 255);
           
           console.log(this.offsetHeight);
+          var scale = this.offsetWidth/ 650;
 
           var width = this.offsetWidth,
-              height = 700,
-              initialScale = 5500,
-              initialX = -11950,
-              initialY = 4050,
+              height = 700 * scale,
+              initialScale = 5500 * scale,
+              initialX = -11950 * scale,
+              initialY = 4050 * scale,
               centered,
               labels;
 
