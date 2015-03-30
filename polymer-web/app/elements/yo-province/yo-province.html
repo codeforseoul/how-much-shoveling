@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="yo-province" attributes="data">
+<polymer-element name="yo-province" attributes="data provinceShapeUrl">
   <template>
     <link rel="stylesheet" href="yo-province.css">
     <style>
@@ -14,8 +14,9 @@
     (function () {
       Polymer({
 
-        data: {},
-        domReady: function () {
+        data: {}
+        , provinceShapeUrl: 'data/korea.json'
+        , domReady: function () {
           this.createElements();
           this.projection;
           this.path;
@@ -23,6 +24,8 @@
         , createElements: function() {
 
           var data = this.data;
+          var provinceShapeUrl = this.provinceShapeUrl;
+          
           var vals = Object.keys(data).map(function (key) {
               return data[key];
           });
@@ -67,7 +70,7 @@
               .attr("width", width)
               .attr("height", height);
 
-          d3.json("/data/korea.json", function(json) {
+          d3.json(provinceShapeUrl, function(json) {
             states.selectAll("path")
                 .data(json.features)
                 .enter().append("path")
