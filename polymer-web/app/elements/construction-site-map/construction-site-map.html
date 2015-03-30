@@ -3,7 +3,7 @@
 <polymer-element name="construction-site-map" attributes="">
   <template>
     <core-ajax
-      auto="false"
+      auto
       url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v&s={%22_id%22:1}&l=7000"
       response="{{response}}"
       progress="{{progress}}"
@@ -34,7 +34,6 @@
       </paper-progress>
       <br>
     </template>
-    <div id="loading">Loading...</div>
     <div id="map-container">
       <google-map latitude="35.907757" longitude="127.766922" map="{{map}}" id="mapelement" zoom="7"></google-map>
       <google-map-markerclusterer map="{{map}}"
@@ -50,9 +49,6 @@
       Polymer('construction-site-map', {
         constructionSiteData: [],
         markers: null,
-        domReady: function() {
-          this.async(go());
-        },
         mongodbQueryResponse: function (event, response) {
           this.constructionSiteData = this.constructionSiteData.concat(response.response);
 
