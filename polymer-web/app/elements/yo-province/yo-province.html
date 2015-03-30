@@ -3,28 +3,40 @@
 <polymer-element name="yo-province" attributes="data">
   <template>
     <link rel="stylesheet" href="yo-province.css">
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
     <svg id="svg"></svg>
   </template>
   <script>
     (function () {
       Polymer({
 
+        data: {},
         domReady: function () {
-          this.data = {"null":176681692946,"울산광역시":14322109132,"대전광역시":29533812962,"서울":286653698826,"광주광역시":29604643527,"전라남도":238545907507,"경기도":157280011495,"부산광역시":345473303588,"경상남도":149789889682,"전라북도":155365777204,"대구광역시":26477676139,"충청남도":57156531491,"충청북도":155540958495,"경상북도":248143445996,"강원도":51712558859,"인천광역시":243739804577
-          };
           this.createElements();
           this.projection;
           this.path;
         }
         , createElements: function() {
 
-                var data = {"null": 17668169.2946,"울산광역시":1432210.9132,"대전광역시":2953381.2962,"서울":28665369.8826,"광주광역시":2960464.3527,"전라남도":23854590.7507,"경기도":15728001.1495,"부산광역시":34547330.3588,"경상남도":14978988.9682,"전라북도":15536577.7204,"대구광역시":2647767.6139,"충청남도":5715653.1491,"충청북도":15554095.8495,"경상북도":24814344.5996,"강원도":5171255.8859,"인천광역시":24373980.4577
-                  } ;
+          var data = this.data;
+          var vals = Object.keys(data).map(function (key) {
+              return data[key];
+          });
+          
+          var min = Math.min.apply(Math, vals);
+          var max = Math.max.apply(Math, vals);
+          var level = Math.ceil((max - min) / 255);
+          
+          console.log(this.offsetHeight);
 
-          var width = 700,
+          var width = this.offsetWidth,
               height = 700,
               initialScale = 5500,
-              initialX = -11900,
+              initialX = -11950,
               initialY = 4050,
               centered,
               labels;
@@ -49,8 +61,6 @@
               .attr("id", "states")
               .call(zoom);
 
-          //var money = data[d.properties.Name];
-          //money / 256;
           states.append("rect")
               .attr("class", "background")
               .attr("width", width)
@@ -64,16 +74,15 @@
                 .attr("id", function(d) { return 'path-'+d.id; })
                 .style("fill", function(d) {
 
-                    if (! d.properties.Name.startsWith("제주")) {
+                  if (data.hasOwnProperty(d.properties.Name)) {
 
-                      var m = data[d.properties.Name];
-                      var a = (m/256).toString(16).substring(0,2);
-                      console.log(a);
-                  return "#eeee" + a;
-                  //return color(m/256);
-                    } else {
-                  return "#eeeeee"; 
-                  //return color(2);
+                    var m = data[d.properties.Name];
+                    
+                    var colour = Math.round((m - min)/level);
+                    
+                    return d3.hsl(240, 0.5, (1 - (colour/512 + 0.05)));
+                  } else {
+                    return "#eeeeee"; 
                   }
                 })
                 .on("click", click);
@@ -89,19 +98,19 @@
                 .attr('text-anchor', 'middle')
                 .attr("dy", ".35em")
                 .on("click", click)
+                .style("fill", "#000000")
                 .text(function(d) {
                   var l = d.properties.Name;
-                  console.log(d);
-                    if (! d.properties.Name.startsWith("제주")) {
+                  if (data.hasOwnProperty(l)) {
 
-                      var m = data[d.properties.Name];
-                      l = l + ' - ' + m;
-                    }
+                    var m = data[d.properties.Name];
+                    l = l + ' - ' + Math.round(m/10000/10000) + '억원';
+                  }
 
-                  return l; 
+                  return l;
                 });
           });
-
+          
           var zoom = function() {
 
             projection.translate(d3.event.translate).scale(d3.event.scale);
@@ -138,6 +147,12 @@
             if (d.id == 8) {
               var arr = path.centroid(d);
               arr[1] += (d3.event && d3.event.scale) ? (d3.event.scale / height + 20) : (initialScale / height + 20);
+              
+              return "translate(" + arr + ")";
+            } else if (d.id == 12) {
+              
+              var arr = path.centroid(d);
+              arr[1] += (d3.event && d3.event.scale) ? (d3.event.scale / height - 20) : (initialScale / height - 20);
               
               return "translate(" + arr + ")";
             } else {
