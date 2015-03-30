@@ -58,6 +58,24 @@
       document.querySelector('#drawer-panel').closeDrawer();
     }
   };
+
+  template.onResponse = function(e, detail, sender) {
+    var article = detail.response.querySelector('#article-content');
+
+    article.querySelector('.byline').remove();
+
+    // Fix up image paths to not be local.
+    [].forEach.call(article.querySelectorAll('img'), function(img) {
+      img.setAttribute('src', img.src);
+    });
+
+    var html = article.innerHTML;
+
+    cache[ajax.url] = html; // Primitive caching by URL.
+
+    this.injectBoundHTML(html, pages.selectedItem.firstElementChild);
+  };
+
 // wrap document so it plays nice with other libraries
 // http://www.polymer-project.org/platform/shadow-dom.html#wrappers
 })(wrap(document));

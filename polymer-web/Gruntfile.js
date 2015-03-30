@@ -204,7 +204,8 @@ module.exports = function (grunt) {
             '*.html',
             'elements/**',
             '!elements/**/*.css',
-            'images/{,*/}*.{webp,gif}'
+            'images/{,*/}*.{webp,gif}',
+            'data/**'
           ]
         }, {
           expand: true,
@@ -263,7 +264,7 @@ module.exports = function (grunt) {
     ]);
   });
 
-  
+
 
   grunt.registerTask('build', [
     'clean:dist',
