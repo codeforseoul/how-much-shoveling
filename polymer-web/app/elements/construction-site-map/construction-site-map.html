@@ -3,7 +3,8 @@
 <polymer-element name="construction-site-map" attributes="">
   <template>
     <core-ajax
-      auto
+      id="mapAjax"
+      auto="false"
       url="https://api.mongolab.com/api/1/databases/mymongo/collections/constructionSite?apiKey=iYOsD4U3oGoA0gIpc7uuxKdvoUNb_4_v&s={%22_id%22:1}&l=7000"
       response="{{response}}"
       progress="{{progress}}"
@@ -36,7 +37,7 @@
     </template>
     <div id="map-container">
       <google-map latitude="35.907757" longitude="127.766922" map="{{map}}" id="mapelement" zoom="7"></google-map>
-      <google-map-markerclusterer map="{{map}}"
+      <google-map-markerclusterer map="{{map}}" batchSize="7000"
                                   minimumClusterSize="2"
                                   gridSize="70" markers="{{markers}}"
                                   averageCenter="false">
@@ -49,25 +50,62 @@
       Polymer('construction-site-map', {
         constructionSiteData: [],
         markers: null,
-        mongodbQueryResponse: function (event, response) {
-          this.constructionSiteData = this.constructionSiteData.concat(response.response);
+        domReady: function() {
+            var ajax = this.$.mapAjax;
+            this.async(function() {
+              ajax.go();
+            });
+        }
+        , mongodbQueryResponse: function (event, response) {
 
+          this.constructionSiteData = this.constructionSiteData.concat(response.response);
           console.log("marker length", this.constructionSiteData.length);
 
           this.markers = [];
 
-          var markerTemplate = document.createElement("construction-site-marker");
+          var t0 = performance.now();
+
+          var image = {
+            url: '/images/shoveling-32x32.gif'
+          };
 
           var l = length = this.constructionSiteData.length;
           for (var i = 0; i < l; i++) {
-            var constructionSite = this.constructionSiteData[i];
+            var site = this.constructionSiteData[i];
 
-            var marker = document.importNode(markerTemplate);
-            marker.constructionSite = constructionSite;
-            marker.position = new google.maps.LatLng(constructionSite.lat, constructionSite.lng);
+            ///*
+            var latLng = new google.maps.LatLng(site.lat, site.lng)
+            var marker = new google.maps.Marker({
+              position: latLng,
+              icon: image,
+              optimized: false
+            });
+            marker.site = site;
+            google.maps.event.addListener(marker, "click", function (event) {
 
+                if (!this.infoWindow) {
+                  this.infoWindow = new google.maps.InfoWindow();
+                }
+                var constructionSiteInfo = new ConstructionSiteInfo();
+                constructionSiteInfo.data = marker.site;
+
+                this.infoWindow.setContent(constructionSiteInfo);
+                this.infoWindow.setPosition(this.position);
+                this.infoWindow.open(this.map);
+            });
             this.markers.push(marker);
+            ///
+
+            /* XXX: it takes 13120 millis
+            var markerTemplate = document.createElement("construction-site-marker");
+            var marker = document.importNode(markerTemplate);
+            marker.constructionSite = site;
+            marker.position = new google.maps.LatLng(site.lat, site.lng);
+            this.markers.push(marker);
+            //*/
           }
+          var t1 = performance.now();
+          console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
         }
       });
     })();
@@ -136,7 +174,7 @@
 
 <polymer-element name="shoveling-marker" constructor="ShovelingMarker" attributes="">
   <template>
-    <img src="http://resources.nubimaru.com/attach/6/1008254473.gif" width="30px" height="30px" />
+    <img src="/images/shoveling-32x32.gif" width="32px" height="32px" />
   </template>
   <script>
     (function () {
