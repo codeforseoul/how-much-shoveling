@@ -27,13 +27,20 @@
         width: 100%;
       }
     </style>
+    <style shim-shadowdom>
+      paper-progress {
+        display: block;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+      }
+    </style>
     <template if="{{loading && progress.loaded}}">
       <paper-progress
         value="{{progress.loaded}}"
         min="0"
-        max="{{numbytes}}">
+        max="1024*10" >
       </paper-progress>
-      <br>
     </template>
     <div id="map-container">
       <google-map latitude="35.907757" longitude="127.766922" map="{{map}}" id="mapelement" zoom="7"></google-map>

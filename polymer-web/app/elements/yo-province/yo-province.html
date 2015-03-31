@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="yo-province" attributes="data provinceShapeUrl">
+<polymer-element name="yo-province" attributes="data provinceShapeUrl debug">
   <template>
     <link rel="stylesheet" href="yo-province.css">
     <style>
@@ -15,6 +15,7 @@
       Polymer({
 
         data: {}
+        , debug: false
         , provinceShapeUrl: 'data/korea.json'
         , domReady: function () {
           this.createElements();
@@ -25,16 +26,16 @@
 
           var data = this.data;
           var provinceShapeUrl = this.provinceShapeUrl;
-          
+
           var vals = Object.keys(data).map(function (key) {
               return data[key];
           });
-          
+
           var min = Math.min.apply(Math, vals);
           var max = Math.max.apply(Math, vals);
           var level = Math.ceil((max - min) / 255);
-          
-          console.log(this.offsetHeight);
+
+          if (this.debug) console.log(this.offsetHeight);
           var scale = this.offsetWidth/ 650;
 
           var width = this.offsetWidth,
@@ -81,19 +82,16 @@
                   if (data.hasOwnProperty(d.properties.Name)) {
 
                     var m = data[d.properties.Name];
-                    
+
                     var colour = Math.round((m - min)/level);
-                    
+
                     return d3.hsl(240, 0.5, (1 - (colour/512 + 0.05)));
                   } else {
-                    return "#eeeeee"; 
+                    return "#eeeeee";
                   }
                 })
                 .on("click", click);
-                
-                console.log("path="+this.path);
 
-                  console.log(data);
             labels = states.selectAll("text")
               .data(json.features)
               .enter().append("text")
@@ -114,12 +112,12 @@
                   return l;
                 });
           });
-          
+
           var zoom = function() {
 
             projection.translate(d3.event.translate).scale(d3.event.scale);
             states.selectAll("path").attr("d", path);
-            
+
             labels.attr("transform", labelsTransform);
           };
           var click = function(d) {
@@ -147,17 +145,17 @@
                 .style("stroke-width", 1.5 / k + "px");
           };
           var labelsTransform = function(d) {
-            // 경기도가 서울특별시와 겹쳐서 예외 처리
+            // Kyungki-do, Incheon are overlayered on Seoul
             if (d.id == 8) {
               var arr = path.centroid(d);
               arr[1] += (d3.event && d3.event.scale) ? (d3.event.scale / height + 20) : (initialScale / height + 20);
-              
+
               return "translate(" + arr + ")";
             } else if (d.id == 12) {
-              
+
               var arr = path.centroid(d);
               arr[1] += (d3.event && d3.event.scale) ? (d3.event.scale / height - 20) : (initialScale / height - 20);
-              
+
               return "translate(" + arr + ")";
             } else {
               return "translate(" + path.centroid(d) + ")";

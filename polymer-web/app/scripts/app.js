@@ -1,6 +1,8 @@
 (function (document) {
   'use strict';
 
+  var DEBUG = true;
+
   var DEFAULT_ROUTE = '/';
   // Grab a reference to our auto-binding template
   // and give it some initial binding values
@@ -33,15 +35,12 @@
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('template-bound', function() {
-    console.log('Our app is ready to rock!');
+    if (DEBUG) console.log('Our app is ready to rock!');
 
     ajax = document.querySelector('#ajax');
     pages = document.querySelector('#pages');
 
-    console.log('pages', pages);
-
     this.route = this.route || DEFAULT_ROUTE; // Select initial route.
-    console.log('selectedItem', app.selectedPage);
   });
 
 
@@ -74,10 +73,6 @@
       document.querySelector('#drawer-panel').closeDrawer();
     });
 
-    /*
-    if (detail.isSelected) {
-    }
-    */
   };
 
   app.ajaxLoad = function(e, detail, sender) {
@@ -96,7 +91,6 @@
 
     cache[ajax.url] = html; // Primitive caching by URL.
 
-    console.log(pages.selectedItem);
     this.injectBoundHTML(html, pages.selectedItem.firstElementChild);
   };
 
