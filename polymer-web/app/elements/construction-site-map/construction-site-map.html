@@ -85,11 +85,13 @@
             var marker = new google.maps.Marker({
               position: latLng,
               icon: image,
-              optimized: false
+              optimized: false,
+              site: site
             });
-            marker.site = site;
-            google.maps.event.addListener(marker, "click", function (event) {
+            google.maps.event.addListener(marker, "click", (function(marker) {
 
+              return function() {
+                console.log(marker);
                 if (!this.infoWindow) {
                   this.infoWindow = new google.maps.InfoWindow();
                 }
@@ -99,7 +101,8 @@
                 this.infoWindow.setContent(constructionSiteInfo);
                 this.infoWindow.setPosition(this.position);
                 this.infoWindow.open(this.map);
-            });
+              }
+            })(marker));
             this.markers.push(marker);
             ///
 
