@@ -26,10 +26,6 @@
 <body unresolved fullbleed layout vertical>
 <template is="auto-binding" id="app">
   <style>
-    .height-full {
-      height: 100%;
-    }
-
     core-animated-pages > *  {
       font-size: inherit;
       overflow-y: auto;
@@ -67,23 +63,23 @@
       </core-header-panel>
 
       <!-- Main -->
-      <core-header-panel main mode="standard">
+      <core-header-panel id="toolbar-header" main mode="waterfall-tall" tallClass="medium-tall">
 
         <!-- Main Toolbar -->
         <core-toolbar class="right-toolbar">
           <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
-          <span>{{selectedPage.page.name}}</span>
-          <span bottom indent>{{selectedPage.page.desc}}</span>
+          <h1 flex>{{selectedPage.page.name}}</h1>
+          <summary class="bottom indent fit" style="visibility: {{summaryVisibility}}">{{selectedPage.page.desc}}</summary>
         </core-toolbar>
 
         <!-- Main Content -->
-        <div layout vertical fit>
+        <div layout vertical fit id="content">
 
           <core-animated-pages id="pages" selected="{{route}}" valueattr="path"
-                               transitions="slide-from-right" class="height-full">
+                               transitions="slide-from-right">
             <template repeat="{{page, i in pages}}">
-              <section path="{{page.route}}" >
-                <div class="height-full">Loading...</div>
+              <section path="{{page.route}}" class="full-size">
+                <div class="full-size">Loading...</div>
               </section>
             </template>
           </core-animated-pages>

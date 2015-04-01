@@ -9,6 +9,7 @@
   // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
   var app = document.querySelector('#app');
   var ajax, pages;
+  var toolbarHeader;
   var cache = {};
   //app.appName = 'Shoveling';
   app.pages = [
@@ -16,14 +17,14 @@
       name: '건설 재정 통계',
       icon: 'account-balance',
       route: '/',
-      desc: '',
+      desc: 'Open spending 의 한국 정부 지출 자료중, 국토부 관련 비교입니다',
       url: '/info.html'
     }
     , {
       name: '전국 시/도별 비교',
       icon: 'image:compare',
       route: '/compare',
-      desc: '',
+      desc: 'DB 의 값을 시/도 별 낸 통계를 표시합니다',
       url: '/compare.html'
     }
     , {
@@ -42,6 +43,7 @@
 
     ajax = document.querySelector('#ajax');
     pages = document.querySelector('#pages');
+    toolbarHeader = document.querySelector('#toolbar-header');
 
     this.route = this.route || DEFAULT_ROUTE; // Select initial route.
   });
@@ -73,6 +75,11 @@
         ajax.go();
       }
 
+
+      pages.selectedItem.scrollTop = 0;
+      toolbarHeader.mode='waterfall-tall';
+      app.summaryVisibility = 'visible';
+
       document.querySelector('#drawer-panel').closeDrawer();
     });
 
@@ -94,7 +101,30 @@
 
     cache[ajax.url] = html; // Primitive caching by URL.
 
+    app.eventHandler = (function(pages, toolbarHeader) {
+      return function() {
+        var el = pages.selectedItem;
+        var hasVerticalScroll = (el.scrollHeight > el.clientHeight);
+        if (hasVerticalScroll == false) {
+          toolbarHeader.mode = 'waterfall';
+          app.summaryVisibility = 'hidden';
+        } else {
+          if (el.scrollTop == 0) {
+            toolbarHeader.mode = 'waterfall-tall';
+            app.summaryVisibility = 'visible';
+          } else {
+            toolbarHeader.mode = 'waterfall';
+            app.summaryVisibility = 'hidden';
+          }
+        }
+      }
+    })(pages, toolbarHeader);
+
     this.injectBoundHTML(html, pages.selectedItem.firstElementChild);
+
+    pages.selectedItem.onscroll = app.eventHandler;
+    pages.selectedItem.onclick = app.eventHandler;
+
   };
 
 // wrap document so it plays nice with other libraries

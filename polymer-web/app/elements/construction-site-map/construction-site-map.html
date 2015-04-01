@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="construction-site-map" attributes="">
+<polymer-element name="construction-site-map" attributes="eventHandler">
   <template>
     <core-ajax
       id="mapAjax"
@@ -43,7 +43,8 @@
       </paper-progress>
     </template>
     <div id="map-container">
-      <google-map latitude="35.907757" longitude="127.766922" map="{{map}}" id="mapelement" zoom="7"></google-map>
+      <google-map latitude="35.907757"
+                  longitude="127.766922" map="{{map}}" id="map" zoom="7" ></google-map>
       <google-map-markerclusterer map="{{map}}" batchSize="7000"
                                   minimumClusterSize="2"
                                   gridSize="70" markers="{{markers}}"
@@ -58,10 +59,10 @@
         constructionSiteData: [],
         markers: null,
         domReady: function() {
-            var ajax = this.$.mapAjax;
-            this.async(function() {
-              ajax.go();
-            });
+          var ajax = this.$.mapAjax;
+          this.async(function() {
+            ajax.go();
+          });
         }
         , mongodbQueryResponse: function (event, response) {
 
