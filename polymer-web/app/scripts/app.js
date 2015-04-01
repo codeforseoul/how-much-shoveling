@@ -14,20 +14,23 @@
   app.pages = [
     {
       name: '건설 재정 통계',
+      icon: 'account-balance',
       route: '/',
-      desc: "건설 재정 통계",
+      desc: '',
       url: '/info.html'
-    },
-    {
+    }
+    , {
       name: '전국 시/도별 비교',
+      icon: 'image:compare',
       route: '/compare',
-      desc: "전국 시/도별 비교",
+      desc: '',
       url: '/compare.html'
-    },
-    {
+    }
+    , {
       name: '건설 지역 지도',
+      icon: 'maps:map',
       route: '/map',
-      desc: "건설 지역 지도 - 나라 장터에 체결된 계약 정보입니다",
+      desc: '나라 장터에 체결된 계약 정보입니다',
       url: '/map.html'
     }
   ];

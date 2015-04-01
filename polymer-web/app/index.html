@@ -58,6 +58,7 @@
                  on-core-select="{{menuItemSelected}}">
           <template repeat="{{page, i in pages}}">
             <paper-item path="{{page.route}}" noink>
+              <core-icon icon="{{page.icon}}"></core-icon>
               <a href="{{page.route}}" >{{page.name}}</a>
             </paper-item>
           </template>
@@ -66,12 +67,13 @@
       </core-header-panel>
 
       <!-- Main -->
-      <core-header-panel main>
+      <core-header-panel main mode="standard">
 
         <!-- Main Toolbar -->
         <core-toolbar class="right-toolbar">
           <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
-          <span>{{selectedPage.page.desc}}</span>
+          <span>{{selectedPage.page.name}}</span>
+          <span bottom indent>{{selectedPage.page.desc}}</span>
         </core-toolbar>
 
         <!-- Main Content -->

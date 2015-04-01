@@ -12,6 +12,11 @@ body {
   background: #585584;
 }
 
+core-icon {
+  color: #aaeeee;
+  /*background: #8481b2;*/
+}
+
 core-animated-pages {
   width: 85%;
   height: 85%;
