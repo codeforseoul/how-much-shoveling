@@ -76,7 +76,8 @@
             url: '/images/shoveling-32x32.gif'
           };
 
-          var l = length = this.constructionSiteData.length;
+          var infoWindow = new google.maps.InfoWindow();
+          var l = this.constructionSiteData.length;
           for (var i = 0; i < l; i++) {
             var site = this.constructionSiteData[i];
 
@@ -88,21 +89,18 @@
               optimized: false,
               site: site
             });
-            google.maps.event.addListener(marker, "click", (function(marker) {
+            google.maps.event.addListener(marker, "click", (function(marker, infoWindow) {
 
               return function() {
-                console.log(marker);
-                if (!this.infoWindow) {
-                  this.infoWindow = new google.maps.InfoWindow();
-                }
                 var constructionSiteInfo = new ConstructionSiteInfo();
                 constructionSiteInfo.data = marker.site;
 
-                this.infoWindow.setContent(constructionSiteInfo);
-                this.infoWindow.setPosition(this.position);
-                this.infoWindow.open(this.map);
+                infoWindow.setContent(constructionSiteInfo);
+                infoWindow.setPosition(this.position);
+                infoWindow.open(this.map);
+
               }
-            })(marker));
+            })(marker, infoWindow));
             this.markers.push(marker);
             ///
 
